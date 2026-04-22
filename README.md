@@ -147,7 +147,6 @@ trading_bot/
 |       `-- css/
 |           `-- styles.css
 |-- README.md
-`-- requirements.txt
 ```
 
 ## File-by-File Explanation
