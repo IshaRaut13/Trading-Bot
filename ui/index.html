@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Binance Futures Testnet Trading Bot</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    Binance Futures Testnet Trading Bot
+  </div>
+  <div class="header-right">
+    <div id="statusDot" class="status-dot offline"></div>
+    <span class="status-text" id="statusText">DISCONNECTED</span>
+    <div class="dryrun-badge" id="dryrunToggle" onclick="toggleDryRun()">⚠ DRY RUN MODE</div>
+  </div>
+</header>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="panel">
+      <div class="panel-header">🔑 API Credentials</div>
+      <div class="panel-body">
+        <div class="field">
+          <label>API Key</label>
+          <input type="password" id="apiKey" placeholder="Paste your Binance API key…" oninput="updateStatus()"/>
+        </div>
+        <div class="field">
+          <label>API Secret</label>
+          <input type="password" id="apiSecret" placeholder="Paste your API secret…" oninput="updateStatus()"/>
+        </div>
+        <div class="field">
+          <label>Base URL</label>
+          <input type="text" id="baseUrl" value="https://testnet.binancefuture.com"/>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header">📋 Place Order</div>
+      <div class="panel-body order-form">
+        <div class="field">
+          <label>Symbol</label>
+          <input type="text" id="symbol" value="BTCUSDT" placeholder="e.g. BTCUSDT" style="text-transform:uppercase"/>
+        </div>
+        <div>
+          <label>Side</label>
+          <div class="side-toggle">
+            <div class="side-btn buy active" onclick="setSide('BUY')">▲ BUY</div>
+            <div class="side-btn sell" onclick="setSide('SELL')">▼ SELL</div>
+          </div>
+        </div>
+        <div>
+          <label>Order Type</label>
+          <div class="type-row">
+            <div class="type-btn active" onclick="setType('MARKET')">MARKET</div>
+            <div class="type-btn" onclick="setType('LIMIT')">LIMIT</div>
+            <div class="type-btn" onclick="setType('STOP_MARKET')">STOP MKT</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Quantity</label>
+            <input type="number" id="quantity" value="0.01" step="0.001" min="0.001" placeholder="0.01"/>
+          </div>
+          <div class="field price-field hidden" id="priceField">
+            <label>Price (USDT)</label>
+            <input type="number" id="price" step="0.01" placeholder="45000"/>
+          </div>
+        </div>
+
+        <div class="field price-field hidden" id="stopPriceField">
+          <label>Stop Price (USDT)</label>
+          <input type="number" id="stopPrice" step="0.01" placeholder="43000"/>
+        </div>
+        <div class="field price-field hidden" id="tifField">
+          <label>Time in Force</label>
+          <select id="tif">
+            <option value="GTC">GTC — Good Till Cancelled</option>
+            <option value="IOC">IOC — Immediate or Cancel</option>
+            <option value="FOK">FOK — Fill or Kill</option>
+          </select>
+        </div>
+
+        <button class="submit-btn buy-btn" id="submitBtn" onclick="submitOrder()">
+          Place BUY Order
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-label">Wallet Balance</div>
+        <div class="stat-value" id="statBalance">—</div>
+        <div class="stat-sub">USDT</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Available</div>
+        <div class="stat-value" id="statAvail">—</div>
+        <div class="stat-sub">USDT</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Unrealised PnL</div>
+        <div class="stat-value" id="statPnl">—</div>
+        <div class="stat-sub">USDT</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Orders Placed</div>
+        <div class="stat-value" id="statOrders">0</div>
+        <div class="stat-sub">this session</div>
+      </div>
+    </div>
+    <div class="terminal">
+      <div class="terminal-header">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="term-dots">
+            <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
+          </div>
+          <div class="terminal-title">Activity Log</div>
+        </div>
+        <button class="clear-btn" onclick="clearLog()">CLEAR</button>
+      </div>
+      <div class="terminal-body" id="termBody"></div>
+    </div>
+    <div class="orders-panel">
+      <div class="orders-header">
+        <div class="orders-title">Order History</div>
+        <button class="clear-btn" onclick="clearOrders()">CLEAR</button>
+      </div>
+      <div id="ordersTable">
+        <div class="no-orders">No orders yet. Place one to get started.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script src="../bot/state.js"></script>
+<script src="../bot/logging_config.js"></script>
+<script src="../bot/validators.js"></script>
+<script src="../bot/client.js"></script>
+<script src="../bot/orders.js"></script>
+<script src="../bot/ui.js"></script>
+</body>
+</html>
+
