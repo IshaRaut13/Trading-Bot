@@ -15,7 +15,7 @@ This project is a browser-based trading bot for **Binance Futures Testnet**. It 
 
 ## Demo Video
 
-[Watch the project demonstration video](PASTE_YOUR_VIDEO_URL_HERE)
+[Watch the project demonstration video](https://drive.google.com/file/d/1QSIF90lXv9Ipt4QRphvoEfxNR44ey9uI/view?usp=sharing)
 
 ## Important Note
 
